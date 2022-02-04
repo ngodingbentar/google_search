@@ -7,17 +7,18 @@ const baseUrl = 'https://google-search3.p.rapidapi.com/api/v1'
 export const ResultContextProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('javascript');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const getResults = async (url) => {
     setLoading(true);
+    console.log('env', process.env)
 
     const res = await fetch(`${baseUrl}${url}`, {
       method: 'GET',
       headers: {
         'x-rapidapi-host': 'google-search3.p.rapidapi.com',
         'x-proxy-location': 'ID',
-        'x-rapidapi-key': '22faaa629emsh5679360207d5987p18cb0ejsn14038d317e16',
+        'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
       },
     });
 
