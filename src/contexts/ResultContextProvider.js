@@ -1,3 +1,4 @@
+import { type } from '@testing-library/user-event/dist/type';
 import React, { createContext, useContext, useState } from 'react'
 
 const ResultContext = createContext()
@@ -21,9 +22,17 @@ export const ResultContextProvider = ({ children }) => {
     });
 
     const data = await res.json();
-    console.log('data', data)
+    console.log('url', url)
 
-    setResults(data);
+    if (url.includes('/news')) {
+      setResults(data.entries)
+    } else if (url.includes('/images')) {
+      setResults(data.image_results)
+    } else {
+      setResults(data.results)
+    }
+
+    // setResults(data);
     setLoading(false);
   };
 
