@@ -11,8 +11,14 @@ function Results() {
   const location = useLocation()
 
   useEffect(() => {
-    getResults('/search/q=dewa qintoro&num=10')
-  },[]) //jika tidak diisi maka hanya akan berjalan saat pertama kali di mount
+    if (searchTerm !== '') {
+      if (location.pathname === '/videos') {
+        getResults(`/search/q=${searchTerm} videos`);
+      } else {
+        getResults(`${location.pathname}/q=${searchTerm}&num=40`);
+      }
+    }
+  }, [searchTerm, location.pathname]); //jika tidak diisi maka hanya akan berjalan saat pertama kali di mount
 
   if (loading) return <Loading />
 
@@ -34,13 +40,13 @@ function Results() {
       );
     case '/images':
       return (
-        <div className="flex flex-wrap justify-center items-center">images
-          {/* {results?.image_results?.map(({ image, link: { href, title } }, index) => (
+        <div className="flex flex-wrap justify-center items-center">
+          {results?.image_results?.map(({ image, link: { href, title } }, index) => (
             <a href={href} target="_blank" key={index} rel="noreferrer" className="sm:p-3 p-5">
               <img src={image?.src} alt={title} loading="lazy" />
               <p className="sm:w-36 w-36 break-words text-sm mt-2">{title}</p>
             </a>
-          ))} */}
+          ))}
         </div>
       );
     case '/news':
